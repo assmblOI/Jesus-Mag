@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Magazine | Organization Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Cinzel', serif; }
+
+        /* 1. AUTO-ADJUSTING BACKGROUNDS */
+        .bg-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 1;
+            transition: background-image 0.8s ease-in-out;
+        }
+        @media (orientation: landscape) { .bg-layer { background-image: url('background_wide.jpg'); } }
+        @media (orientation: portrait) { .bg-layer { background-image: url('background_tall.jpg'); } }
+
+        /* 2. SPARKLES */
+        #sparkleCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+
+        /* 3. FLOWING HALO */
+        .halo-container { position: absolute; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; z-index: 3; }
+        .halo-ring {
+            width: 80vh; height: 80vh; border-radius: 50%;
+            box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.1), 0 0 40px rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: flowRotation 60s linear infinite;
+        }
+        @keyframes flowRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* 4. THE STAGE (J1 & Bubbles) */
+        .stage { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        .center-figure { height: 75vh; transition: transform 0.2s ease-out; filter: drop-shadow(0 0 40px rgba(0,0,0,0.9)); z-index: 11; }
+
+        /* 5. FLOATING BUBBLES */
+        .bubble { position: absolute; width: clamp(75px, 12vw, 150px); z-index: 15; animation: breathing 6s ease-in-out infinite alternate; transition: transform 0.3s ease; }
+        .bubble:hover { transform: scale(1.2) !important; filter: brightness(1.3) drop-shadow(0 0 25px #D4AF37); }
+        @keyframes breathing { 0% { translate: 0px 0px; } 100% { translate: 5px -15px; } }
+
+        /* POSITIONING THE DONUT */
+        .b1  { top: 12%; left: 32%; animation-delay: 0.1s; }
+        .b2  { top: 8%;  left: 50%; transform: translateX(-50%); } 
+        .b3  { top: 12%; left: 68%; animation-delay: 0.4s; }
+        .b4  { top: 38%; left: 82%; animation-delay: 0.6s; }
+        .b5  { top: 68%; left: 78%; animation-delay: 0.8s; }
+        .b6  { top: 88%; left: 50%; transform: translateX(-50%); }
+        .b7  { top: 68%; left: 22%; animation-delay: 1.2s; }
+        .b8  { top: 38%; left: 12%; animation-delay: 1.4s; }
+        .b9  { top: 22%; left: 18%; animation-delay: 1.6s; }
+        .b10 { top: 32%; left: 28%; animation-delay: 1.8s; }
+
+        .footer { position: absolute; bottom: 4%; width: 100%; text-align: center; z-index: 20; color: #D4AF37; pointer-events: none; }
+        .footer h1 { font-size: 2.2vw; letter-spacing: 12px; }
+
+        @media (max-width: 768px) {
+            .center-figure { height: 48vh; }
+            .bubble { width: 20vw; }
+            .halo-ring { width: 85vw; height: 85vw; }
+            .footer h1 { font-size: 5.5vw; letter-spacing: 4px; }
+            .b1, .b10, .b9, .b8 { left: 8%; } .b3, .b4, .b5 { left: 72%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    <canvas id="sparkleCanvas"></canvas>
+    <div class="halo-container"><div class="halo-ring"></div></div>
+    <div class="stage">
+        <img src="J1.png" alt="Center" class="center-figure" id="centerImg">
+        <a href="#"><img src="B1.png" class="bubble b1"></a>
+        <a href="#"><img src="B2.png" class="bubble b2"></a>
+        <a href="#"><img src="B3.png" class="bubble b3"></a>
+        <a href="#"><img src="B4.png" class="bubble b4"></a>
+        <a href="#"><img src="B5.png" class="bubble b5"></a>
+        <a href="#"><img src="B6.png" class="bubble b6"></a>
+        <a href="#"><img src="B7.png" class="bubble b7"></a>
+        <a href="#"><img src="B8.png" class="bubble b8"></a>
+        <a href="#"><img src="B9.png" class="bubble b9"></a>
+        <a href="#"><img src="B10.png" class="bubble b10"></a>
+        <div class="footer"><h1>PEACE I LEAVE WITH YOU</h1></div>
+    </div>
+    <script>
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function setSize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        class P {
+            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2; this.sy = Math.random()*-0.4; this.o = Math.random(); }
+            u() { this.y += this.sy; if (this.y < 0) this.y = canvas.height; }
+            d() { ctx.fillStyle = `rgba(212, 175, 55, ${this.o})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill(); }
+        }
+        function init() { particles = []; for(let i=0; i<130; i++) particles.push(new P()); }
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.u(); p.d();}); requestAnimationFrame(animate); }
+        setSize(); init(); animate();
+        const img = document.getElementById('centerImg');
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth/2 - e.pageX)/45;
+            const y = (window.innerHeight/2 - e.pageY)/45;
+            img.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        window.addEventListener('resize', () => { setSize(); init(); });
+    </script>
+</body>
+</html>
