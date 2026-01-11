@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Magazine | High Design</title>
+    <title>Digital Magazine | Liquid Energy Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Cinzel', serif; }
 
-        /* 1. BACKGROUND (Appears First) */
+        /* 1. BACKGROUND */
         .bg-layer {
             position: fixed;
             top: 0; left: 0;
@@ -25,22 +25,43 @@
         /* 2. SPARKLES */
         #sparkleCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 
-        /* 3. THE FLOWING HALO (Fades in 2nd) */
+        /* 3. THE LIQUID ENERGY HALO (Irregular & Wavy) */
         .halo-container { 
             position: absolute; 
             width: 100vw; height: 100vh; 
             display: flex; justify-content: center; align-items: center; 
             z-index: 3;
             opacity: 0;
-            animation: fadeIn 2s ease forwards 0.5s; /* 0.5s delay */
+            animation: fadeIn 2s ease forwards 0.5s;
         }
+        
         .halo-ring {
-            width: 80vh; height: 80vh; border-radius: 50%;
-            /* Brightened the glow so it shows up */
-            box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.4), 0 0 50px rgba(212, 175, 55, 0.6);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            animation: flowRotation 60s linear infinite;
+            width: 85vh; height: 85vh;
+            /* Irregular "Water" Shape */
+            border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%;
+            background: transparent;
+            /* Multi-layered glow for depth */
+            box-shadow: 
+                inset 0 0 80px rgba(212, 175, 55, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.2),
+                0 0 100px rgba(212, 175, 55, 0.2);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            
+            /* Rotating AND Morphing Shape */
+            animation: 
+                flowRotation 20s linear infinite,
+                liquidMorph 8s ease-in-out infinite alternate;
+            filter: blur(4px); /* Softens the edges to look like fluid */
         }
+
+        /* Morphing the shape to look like flowing water/fire */
+        @keyframes liquidMorph {
+            0% { border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%; }
+            50% { border-radius: 60% 40% 30% 70% / 40% 50% 40% 60%; }
+            100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+        }
+
+        @keyframes flowRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* 4. THE STAGE (J1 & Bubbles) */
         .stage { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; z-index: 10; }
@@ -48,35 +69,31 @@
         .center-figure { 
             height: 75vh; 
             opacity: 0;
-            animation: fadeIn 2s ease forwards 1s; /* 1s delay */
+            animation: fadeIn 2s ease forwards 1s;
             transition: transform 0.2s ease-out; 
             filter: drop-shadow(0 0 40px rgba(0,0,0,0.9)); 
             z-index: 11; 
         }
 
-        /* 5. THE BUBBLES (Fade in last at once) */
+        /* 5. THE BUBBLES */
         .bubble-group {
             position: absolute;
             width: 100%; height: 100%;
             opacity: 0;
-            animation: fadeIn 2s ease forwards 1.5s; /* 1.5s delay */
+            animation: fadeIn 2s ease forwards 1.5s;
             z-index: 15;
-            pointer-events: none; /* Reset below */
+            pointer-events: none;
         }
         .bubble { 
             position: absolute; 
             width: clamp(75px, 11vw, 140px); 
             animation: breathing 6s ease-in-out infinite alternate; 
             transition: transform 0.3s ease; 
-            pointer-events: auto; /* Makes them clickable again */
+            pointer-events: auto;
         }
         .bubble:hover { transform: scale(1.2) !important; filter: brightness(1.3) drop-shadow(0 0 25px #D4AF37); }
 
-        /* FADE ANIMATION */
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        @keyframes flowRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes fadeIn { to { opacity: 1; } }
         @keyframes breathing { 0% { translate: 0px 0px; } 100% { translate: 5px -12px; } }
 
         /* POSITIONS */
@@ -106,11 +123,13 @@
 <body>
     <div class="bg-layer"></div>
     <canvas id="sparkleCanvas"></canvas>
-    <div class="halo-container"><div class="halo-ring"></div></div>
+    
+    <div class="halo-container">
+        <div class="halo-ring"></div>
+    </div>
     
     <div class="stage">
         <img src="J1.png" alt="Center" class="center-figure" id="centerImg">
-        
         <div class="bubble-group">
             <a href="#"><img src="B1.png" class="bubble b1"></a>
             <a href="#"><img src="B2.png" class="bubble b2"></a>
@@ -123,7 +142,6 @@
             <a href="#"><img src="B9.png" class="bubble b9"></a>
             <a href="#"><img src="B10.png" class="bubble b10"></a>
         </div>
-
         <div class="footer"><h1>PEACE I LEAVE WITH YOU</h1></div>
     </div>
 
@@ -133,11 +151,11 @@
         let particles = [];
         function setSize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         class P {
-            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2; this.sy = Math.random()*-0.4; this.o = Math.random(); }
+            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2.5; this.sy = Math.random()*-0.5; this.o = Math.random(); }
             u() { this.y += this.sy; if (this.y < 0) this.y = canvas.height; }
             d() { ctx.fillStyle = `rgba(212, 175, 55, ${this.o})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill(); }
         }
-        function init() { particles = []; for(let i=0; i<130; i++) particles.push(new P()); }
+        function init() { particles = []; for(let i=0; i<140; i++) particles.push(new P()); }
         function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.u(); p.d();}); requestAnimationFrame(animate); }
         setSize(); init(); animate();
         const img = document.getElementById('centerImg');
