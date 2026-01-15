@@ -8,6 +8,7 @@
         :root {
             --halo-max: 1.1;
             --text-scale: 1;
+            --breath-speed: 6s;
         }
 
         body { 
@@ -32,8 +33,8 @@
         }
 
         svg { 
-            width: 110%; /* Slight bleed for scale */
-            height: 110%;
+            width: 115%; 
+            height: 115%;
         }
 
         .cmd-text { 
@@ -43,7 +44,7 @@
             letter-spacing: 3px; 
             font-weight: bold; 
             filter: drop-shadow(0 0 8px #00d4ff);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .divine-law { 
@@ -51,23 +52,27 @@
             filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
-        /* Breathing Animations */
+        /* Color Shifting Breathing Animations */
         @keyframes breathScale {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(var(--halo-max)); opacity: 0.9; }
+            0%, 100% { transform: scale(1); opacity: 0.5; stroke: #00d4ff; }
+            50% { transform: scale(var(--halo-max)); opacity: 0.9; stroke: #ffdf80; }
         }
 
         @keyframes corePulse {
-            0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); }
-            50% { filter: blur(40px) brightness(2); transform: scale(1.4); }
+            0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); fill: url(#blueGlow); }
+            50% { filter: blur(45px) brightness(2.5); transform: scale(1.4); fill: url(#goldGlow); }
+        }
+
+        @keyframes float {
+            0%, 100% { translateY: 0px; }
+            50% { translateY: -10px; }
         }
 
         .scaffolding { 
-            stroke: #00d4ff; 
             stroke-width: 1.5; 
             fill: none; 
             transform-origin: 300px 500px;
-            animation: breathScale 6s infinite ease-in-out;
+            animation: breathScale var(--breath-speed) infinite ease-in-out;
         }
 
         .core-star { 
@@ -78,35 +83,32 @@
         /* HORIZONTAL / DESKTOP SETTINGS */
         @media (min-aspect-ratio: 1/1) {
             :root {
-                --halo-max: 2.2; /* Double the breath size for wide screens */
-                --text-scale: 1.3; /* Increased size for depth feel */
+                --halo-max: 2.3; 
+                --text-scale: 1.4;
             }
-            .cmd-text { font-size: 22px; }
+            .cmd-text { font-size: 24px; animation: float 8s infinite ease-in-out; }
             
-            /* Avalanche Dispersion with Depth */
-            .cmd-I { transform: translate(0, -80px) scale(1.5); } /* Center Top */
-            .cmd-II { transform: translate(-250px, -40px); }
-            .cmd-III { transform: translate(250px, -40px); }
+            .cmd-I { transform: translate(0, -90px) scale(1.6); }
+            .cmd-II { transform: translate(-280px, -50px); }
+            .cmd-III { transform: translate(280px, -50px); }
             
-            .cmd-VI { transform: translate(-320px, 0) scale(var(--text-scale)); }
-            .cmd-VII { transform: translate(320px, 0) scale(var(--text-scale)); }
+            .cmd-VI { transform: translate(-350px, 0) scale(var(--text-scale)); }
+            .cmd-VII { transform: translate(350px, 0) scale(var(--text-scale)); }
             
-            .cmd-VIII { transform: translate(-380px, 120px) scale(0.9); opacity: 0.7; }
-            .cmd-IX { transform: translate(380px, 120px) scale(0.9); opacity: 0.7; }
+            .cmd-VIII { transform: translate(-420px, 150px) scale(0.85); opacity: 0.6; }
+            .cmd-IX { transform: translate(420px, 150px) scale(0.85); opacity: 0.6; }
             
-            .cmd-X { transform: translate(0, 50px) scale(1.2); }
+            .cmd-X { transform: translate(0, 70px) scale(1.3); }
         }
 
         /* VERTICAL / MOBILE SETTINGS */
         @media (max-aspect-ratio: 1/1) {
-            .main-group { transform: translateY(-120px); } /* Move it up higher */
-            .cmd-text { font-size: 16px; letter-spacing: 1px; }
-            /* Keep vertical texts centered or tight */
-            .cmd-I, .cmd-II, .cmd-III, .cmd-IV, .cmd-V, .cmd-X { transform: translate(0, 0); }
-            .cmd-VI { transform: translate(-60px, 30px); }
-            .cmd-VII { transform: translate(60px, 30px); }
-            .cmd-VIII { transform: translate(-60px, 60px); }
-            .cmd-IX { transform: translate(60px, 60px); }
+            .main-group { transform: translateY(-130px); }
+            .cmd-text { font-size: 16px; letter-spacing: 1.5px; }
+            .cmd-VI { transform: translate(-70px, 40px); }
+            .cmd-VII { transform: translate(70px, 40px); }
+            .cmd-VIII { transform: translate(-70px, 80px); }
+            .cmd-IX { transform: translate(70px, 80px); }
         }
     </style>
 </head>
@@ -115,28 +117,33 @@
 <div id="canvas-wrapper">
     <svg viewBox="0 0 600 1000" preserveAspectRatio="xMidYMid meet">
         <defs>
-            <radialGradient id="innerGlow">
+            <radialGradient id="blueGlow">
                 <stop offset="0%" stop-color="#fff" />
-                <stop offset="30%" stop-color="#00d4ff" />
+                <stop offset="40%" stop-color="#00d4ff" />
+                <stop offset="100%" stop-color="transparent" />
+            </radialGradient>
+            <radialGradient id="goldGlow">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="40%" stop-color="#ffdf80" />
                 <stop offset="100%" stop-color="transparent" />
             </radialGradient>
         </defs>
 
         <g class="main-group">
-            <path d="M300,120 c-40,0 -65,30 -65,75 c0,45 25,75 65,75 s65,-30 65,-75 c0,-45 -25,-75 -65,-75 M230,280 c-80,15 -110,60 -125,140 l-45,220 c-5,30 20,45 40,35 l30,-100 l15,360 l-60,140 l90,0 l50,-240 l50,240 l90,0 l-60,-140 l15,-360 l30,100 c25,10 45,-5 40,-35 l-45,-220 c-15,-80 -45,-125 -125,-140 Z" 
-                  fill="rgba(0, 212, 255, 0.08)" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" />
+            <path d="M300,100 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,270 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
+                  fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2" />
 
             <g class="scaffolding">
                 <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
-                <circle cx="300" cy="500" r="180" />
-                <polygon points="300,100 600,500 300,900 0,500" opacity="0.4"/>
+                <circle cx="300" cy="500" r="200" />
+                <path d="M300,50 L580,500 L300,950 L20,500 Z" opacity="0.4"/>
             </g>
 
-            <circle cx="300" cy="500" r="60" fill="url(#innerGlow)" class="core-star" />
+            <circle cx="300" cy="500" r="70" class="core-star" />
 
-            <text x="300" y="70" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
-            <text x="300" y="145" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
-            <text x="300" y="185" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
+            <text x="300" y="60" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
+            <text x="300" y="140" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
+            <text x="300" y="180" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
             
             <text x="300" y="440" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
             <text x="300" y="560" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
@@ -144,12 +151,12 @@
             <text x="140" y="480" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
             <text x="460" y="480" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
             
-            <text x="140" y="680" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
-            <text x="460" y="680" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
+            <text x="140" y="700" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
+            <text x="460" y="700" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
 
-            <text x="300" y="900" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
+            <text x="300" y="920" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
             
-            <text x="300" y="970" text-anchor="middle" style="fill:#00d4ff; font-size: 14px; opacity: 0.6; letter-spacing: 12px;">SUBSTANCE</text>
+            <text x="300" y="980" text-anchor="middle" style="fill:#ffdf80; font-size: 14px; opacity: 0.7; letter-spacing: 15px;">SUBSTANCE</text>
         </g>
     </svg>
 </div>
