@@ -2,130 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Decalogue Scaffolding</title>
+    <title>The Decalogue: Substantial Essence</title>
     <style>
-        body {
-            background-color: #050510;
-            color: #e0f0ff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+        body { margin: 0; background: #02040a; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Garamond', serif; color: #fff; overflow: hidden; }
+        #canvas { width: 900px; height: 900px; position: relative; }
+        svg { width: 100%; height: 100%; }
+        
+        /* Typography Styles */
+        .cmd-text { fill: rgba(255, 255, 255, 0.9); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; filter: drop-shadow(0 0 5px #00d4ff); }
+        .divine-law { fill: #ffdf80; filter: drop-shadow(0 0 8px #ffdf80); }
+        
+        /* Animation for the "Essence" pulse */
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+            100% { opacity: 0.3; transform: scale(1); }
         }
-
-        #canvas-container {
-            position: relative;
-            width: 800px;
-            height: 800px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* The Being (Silhouette) */
-        .human-form {
-            position: absolute;
-            width: 400px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(100,200,255,0.1) 0%, rgba(0,0,0,0) 70%);
-            border: 1px solid rgba(100, 200, 255, 0.2);
-            border-radius: 200px 200px 50px 50px;
-            z-index: 1;
-        }
-
-        /* The Geometric Core */
-        .core-lattice {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border: 2px solid rgba(0, 255, 255, 0.5);
-            transform: rotate(45deg);
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Labels and Mapping */
-        .label {
-            position: absolute;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            text-align: center;
-            max-width: 150px;
-            transition: all 0.3s ease;
-            cursor: help;
-        }
-
-        .label:hover {
-            color: #fff;
-            text-shadow: 0 0 10px #00ffff;
-            transform: scale(1.1);
-        }
-
-        /* Vertical Axis (Relationship with God) */
-        .divine-axis { color: #ffd700; border-bottom: 1px solid #ffd700; }
-        #cmd1 { top: 50px; left: 50%; transform: translateX(-50%); } /* No other gods */
-        #cmd2 { top: 100px; left: 50%; transform: translateX(-50%); } /* No idols */
-        #cmd3 { top: 150px; left: 50%; transform: translateX(-50%); } /* Name in vain */
-        #cmd4 { top: 250px; left: 50%; transform: translateX(-50%); } /* Sabbath */
-
-        /* Internal Structure (Interpersonal) */
-        .social-structure { color: #00ffff; }
-        #cmd5 { top: 380px; left: 50%; transform: translateX(-50%); } /* Honor Parents (The Heart) */
-        #cmd6 { top: 450px; left: 20%; } /* Murder (The Hand/Action) */
-        #cmd7 { top: 450px; right: 20%; } /* Adultery (The Bond) */
-        #cmd8 { top: 520px; left: 20%; } /* Steal */
-        #cmd9 { top: 520px; right: 20%; } /* False Witness */
-        #cmd10 { top: 600px; left: 50%; transform: translateX(-50%); } /* Covet (The Foundation/Desire) */
-
-        /* Legend */
-        .legend {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 10, 30, 0.8);
-            padding: 15px;
-            border: 1px solid #00ffff;
-            font-size: 10px;
-        }
+        .scaffolding { stroke: #00d4ff; stroke-width: 0.5; fill: none; opacity: 0.4; }
+        .glow { filter: blur(15px); opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<div id="canvas-container">
-    <div class="human-form"></div>
-    <div class="core-lattice">
-        <div style="transform: rotate(-45deg); color: white; font-size: 10px; opacity: 0.5;">SUBSTANTIAL FORM</div>
-    </div>
+<div id="canvas">
+    <svg viewBox="0 0 800 800">
+        <circle cx="400" cy="400" r="350" fill="url(#bgGradient)" />
+        
+        <defs>
+            <radialGradient id="bgGradient">
+                <stop offset="0%" stop-color="#1a3a5a" />
+                <stop offset="100%" stop-color="#02040a" />
+            </radialGradient>
+            <radialGradient id="coreGlow">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="100%" stop-color="#00d4ff" />
+            </radialGradient>
+        </defs>
 
-    <div class="label divine-axis" id="cmd1">I. No other gods before Me</div>
-    <div class="label divine-axis" id="cmd2">II. No idols</div>
-    <div class="label divine-axis" id="cmd3">III. Do not take Name in vain</div>
-    <div class="label divine-axis" id="cmd4">IV. Keep the Sabbath holy</div>
+        <path d="M400,80 Q350,80 340,150 L340,250 Q250,260 220,350 L250,650 L350,780 L450,780 L550,650 L580,350 Q550,260 460,250 L460,150 Q450,80 400,80" 
+              fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
 
-    <div class="label social-structure" id="cmd5">V. Honor your Father & Mother</div>
-    <div class="label social-structure" id="cmd6">VI. Do not murder</div>
-    <div class="label social-structure" id="cmd7">VII. Do not commit adultery</div>
-    <div class="label social-structure" id="cmd8">VIII. Do not steal</div>
-    <div class="label social-structure" id="cmd9">IX. No false witness</div>
-    <div class="label social-structure" id="cmd10">X. Do not covet</div>
+        <g class="scaffolding">
+            <circle cx="400" cy="400" r="220" />
+            <polygon points="400,180 620,400 400,620 180,400" />
+            <rect x="250" y="250" width="300" height="300" transform="rotate(45 400 400)" />
+            <circle cx="400" cy="400" r="80" stroke-width="1" />
+        </g>
 
-    <div class="legend">
-        <strong>SCAFFOLDING KEY:</strong><br>
-        <span style="color: #ffd700;">Gold:</span> Divine Orientation (Axis)<br>
-        <span style="color: #00ffff;">Blue:</span> Moral Integrity (Lattice)<br>
-        <span style="color: #fff;">Lattice:</span> Substantial Form of Being
-    </div>
+        <text x="400" y="70" text-anchor="middle" class="cmd-text divine-law">I. No other gods before Me</text>
+        <line x1="400" y1="90" x2="400" y2="170" stroke="#ffdf80" stroke-width="1" stroke-dasharray="4" />
+        
+        <text x="400" y="200" text-anchor="middle" class="cmd-text divine-law">II. No Idols</text>
+        <text x="400" y="230" text-anchor="middle" class="cmd-text divine-law">III. Name not in Vain</text>
+        
+        <circle cx="400" cy="400" r="30" fill="url(#coreGlow)" class="glow" />
+        <text x="400" y="340" text-anchor="middle" class="cmd-text">IV. Keep Sabbath Holy</text>
+
+        <text x="400" y="410" text-anchor="middle" class="cmd-text" style="fill:#fff">V. Honor Father & Mother</text>
+
+        <text x="180" y="300" text-anchor="end" class="cmd-text">VI. No Murder</text>
+        <text x="620" y="300" text-anchor="start" class="cmd-text">VII. No Adultery</text>
+        
+        <text x="150" y="500" text-anchor="end" class="cmd-text">VIII. No Stealing</text>
+        <text x="650" y="500" text-anchor="start" class="cmd-text">IX. No False Witness</text>
+
+        <text x="400" y="720" text-anchor="middle" class="cmd-text">X. You shall not covet</text>
+        
+        <text x="400" y="760" text-anchor="middle" style="fill:#00d4ff; font-size: 10px; opacity: 0.5;">ACT OF BEING (ESSE)</text>
+    </svg>
 </div>
 
 </body>
 </html>
-
