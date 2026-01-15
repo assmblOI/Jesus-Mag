@@ -1,1 +1,131 @@
-Jjj
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Decalogue Scaffolding</title>
+    <style>
+        body {
+            background-color: #050510;
+            color: #e0f0ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The Being (Silhouette) */
+        .human-form {
+            position: absolute;
+            width: 400px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(100,200,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 200px 200px 50px 50px;
+            z-index: 1;
+        }
+
+        /* The Geometric Core */
+        .core-lattice {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            transform: rotate(45deg);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Labels and Mapping */
+        .label {
+            position: absolute;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-align: center;
+            max-width: 150px;
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+
+        .label:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #00ffff;
+            transform: scale(1.1);
+        }
+
+        /* Vertical Axis (Relationship with God) */
+        .divine-axis { color: #ffd700; border-bottom: 1px solid #ffd700; }
+        #cmd1 { top: 50px; left: 50%; transform: translateX(-50%); } /* No other gods */
+        #cmd2 { top: 100px; left: 50%; transform: translateX(-50%); } /* No idols */
+        #cmd3 { top: 150px; left: 50%; transform: translateX(-50%); } /* Name in vain */
+        #cmd4 { top: 250px; left: 50%; transform: translateX(-50%); } /* Sabbath */
+
+        /* Internal Structure (Interpersonal) */
+        .social-structure { color: #00ffff; }
+        #cmd5 { top: 380px; left: 50%; transform: translateX(-50%); } /* Honor Parents (The Heart) */
+        #cmd6 { top: 450px; left: 20%; } /* Murder (The Hand/Action) */
+        #cmd7 { top: 450px; right: 20%; } /* Adultery (The Bond) */
+        #cmd8 { top: 520px; left: 20%; } /* Steal */
+        #cmd9 { top: 520px; right: 20%; } /* False Witness */
+        #cmd10 { top: 600px; left: 50%; transform: translateX(-50%); } /* Covet (The Foundation/Desire) */
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 10, 30, 0.8);
+            padding: 15px;
+            border: 1px solid #00ffff;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="canvas-container">
+    <div class="human-form"></div>
+    <div class="core-lattice">
+        <div style="transform: rotate(-45deg); color: white; font-size: 10px; opacity: 0.5;">SUBSTANTIAL FORM</div>
+    </div>
+
+    <div class="label divine-axis" id="cmd1">I. No other gods before Me</div>
+    <div class="label divine-axis" id="cmd2">II. No idols</div>
+    <div class="label divine-axis" id="cmd3">III. Do not take Name in vain</div>
+    <div class="label divine-axis" id="cmd4">IV. Keep the Sabbath holy</div>
+
+    <div class="label social-structure" id="cmd5">V. Honor your Father & Mother</div>
+    <div class="label social-structure" id="cmd6">VI. Do not murder</div>
+    <div class="label social-structure" id="cmd7">VII. Do not commit adultery</div>
+    <div class="label social-structure" id="cmd8">VIII. Do not steal</div>
+    <div class="label social-structure" id="cmd9">IX. No false witness</div>
+    <div class="label social-structure" id="cmd10">X. Do not covet</div>
+
+    <div class="legend">
+        <strong>SCAFFOLDING KEY:</strong><br>
+        <span style="color: #ffd700;">Gold:</span> Divine Orientation (Axis)<br>
+        <span style="color: #00ffff;">Blue:</span> Moral Integrity (Lattice)<br>
+        <span style="color: #fff;">Lattice:</span> Substantial Form of Being
+    </div>
+</div>
+
+</body>
+</html>
+
