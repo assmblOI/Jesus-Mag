@@ -5,44 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Decalogue: Substantial Essence</title>
     <style>
+        :root {
+            --halo-scale: 1.05;
+            --breath-speed: 6s;
+        }
+
         body { 
             margin: 0; 
             background: #010309; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            min-height: 100vh; 
+            height: 100vh; 
             width: 100vw;
             font-family: 'Garamond', serif; 
             color: #fff; 
             overflow: hidden; 
         }
 
-        /* Container that allows the SVG to "bleed" slightly off-screen for scale */
         #canvas-wrapper {
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: visible;
         }
 
         svg { 
-            /* This makes the image feel massive on mobile */
-            width: 120vw; 
-            height: 110vh;
-            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
+            width: 100%; 
+            height: 100%;
         }
-        
-        /* Responsive Text: Narrower on mobile, wider on desktop */
+
         .cmd-text { 
             fill: rgba(255, 255, 255, 0.95); 
-            font-size: 18px; 
+            font-size: 16px; 
             text-transform: uppercase; 
-            letter-spacing: 1px; 
+            letter-spacing: 2px; 
             font-weight: bold; 
             filter: drop-shadow(0 0 5px #00d4ff);
+            transition: all 0.5s ease;
         }
 
         .divine-law { 
@@ -53,85 +54,94 @@
         /* Animations */
         @keyframes breathScale {
             0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(1.08); opacity: 0.7; }
+            50% { transform: scale(var(--halo-scale)); opacity: 0.8; }
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { filter: blur(10px) brightness(1); }
-            50% { filter: blur(25px) brightness(1.8); }
+        @keyframes corePulse {
+            0%, 100% { filter: blur(10px) brightness(1); transform: scale(1); }
+            50% { filter: blur(25px) brightness(1.8); transform: scale(1.2); }
         }
 
         .scaffolding { 
             stroke: #00d4ff; 
-            stroke-width: 1.2; 
+            stroke-width: 1; 
             fill: none; 
             transform-origin: center;
-            animation: breathScale 7s infinite ease-in-out;
+            animation: breathScale var(--breath-speed) infinite ease-in-out;
         }
 
         .core-star { 
-            animation: pulseGlow 4s infinite ease-in-out; 
+            transform-origin: center;
+            animation: corePulse 4s infinite ease-in-out; 
         }
 
-        .human-silhouette {
-            stroke: rgba(255, 255, 255, 0.25);
-            stroke-width: 1;
-            fill: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 80%);
-        }
-
-        /* Media Query for Desktop to keep it from getting TOO big */
+        /* DESKTOP / HORIZONTAL SETTINGS */
         @media (min-aspect-ratio: 1/1) {
-            svg {
-                width: 90vh;
-                height: 90vh;
+            :root {
+                --halo-scale: 1.25; /* Double the breathing expansion effect */
             }
-            .cmd-text { font-size: 14px; }
+            /* Avalanche dispersion: Moving texts far apart */
+            .cmd-I { transform: translate(-150px, -50px); }
+            .cmd-II { transform: translate(-200px, 50px); }
+            .cmd-III { transform: translate(200px, 50px); }
+            .cmd-VI { transform: translate(-220px, 0); }
+            .cmd-VII { transform: translate(220px, 0); }
+            .cmd-VIII { transform: translate(-250px, 50px); }
+            .cmd-IX { transform: translate(250px, 50px); }
+        }
+
+        /* MOBILE / VERTICAL SETTINGS */
+        @media (max-aspect-ratio: 1/1) {
+            /* Shift the whole contents of the SVG upward */
+            .main-group { transform: translateY(-80px); }
+            .cmd-text { font-size: 18px; }
+            /* Keep text contained horizontally */
+            .cmd-VI, .cmd-VIII { transform: translateX(30px); }
+            .cmd-VII, .cmd-IX { transform: translateX(-30px); }
         }
     </style>
 </head>
 <body>
 
 <div id="canvas-wrapper">
-    <svg viewBox="0 0 600 1000" preserveAspectRatio="xMidYMid slice">
+    <svg viewBox="0 0 600 1000" preserveAspectRatio="xMidYMid meet">
         <defs>
-            <radialGradient id="innerGlow" cx="50%" cy="50%" r="50%">
+            <radialGradient id="innerGlow">
                 <stop offset="0%" stop-color="#fff" />
-                <stop offset="30%" stop-color="#00d4ff" />
+                <stop offset="40%" stop-color="#00d4ff" />
                 <stop offset="100%" stop-color="transparent" />
             </radialGradient>
         </defs>
 
-        <circle cx="300" cy="500" r="450" fill="url(#innerGlow)" opacity="0.05" />
+        <g class="main-group">
+            <path d="M300,150 c-30,0 -50,25 -50,55 c0,30 20,55 50,55 s50,-25 50,-55 c0,-30 -20,-55 -50,-55 M250,270 c-60,10 -80,40 -90,100 l-30,150 c-5,20 10,35 25,25 l20,-70 l10,250 l-30,120 l70,0 l35,-180 l35,180 l70,0 l-30,-120 l10,-250 l20,70 c15,10 30,-5 25,-25 l-30,-150 c-10,-60 -30,-90 -90,-100 Z" 
+                  fill="rgba(0, 212, 255, 0.05)" stroke="rgba(255, 255, 255, 0.2)" />
 
-        <path class="human-silhouette" d="M300,100 
-            c-40,0 -60,35 -60,75 c0,40 30,75 60,75 s60,-35 60,-75 c0,-40 -20,-75 -60,-75
-            M240,250 c-80,20 -110,60 -120,140 l-40,200 c-5,30 20,45 40,35 l25,-100 l15,350 l-50,150 l100,0 l40,-220 l40,220 l100,0 l-50,-150 l15,-350 l25,100 c25,10 45,-5 40,-35 l-40,-200 c-10,-80 -40,-120 -120,-140 Z" />
+            <g class="scaffolding">
+                <circle cx="300" cy="500" r="300" stroke-dasharray="10,10" />
+                <rect x="150" y="350" width="300" height="300" transform="rotate(45 300 500)" />
+                <circle cx="300" cy="500" r="150" />
+            </g>
 
-        <g class="scaffolding">
-            <circle cx="300" cy="500" r="320" stroke-dasharray="10,10" opacity="0.3"/>
-            <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
-            <polygon points="300,150 550,500 300,850 50,500" opacity="0.6"/>
-            <circle cx="300" cy="500" r="120" />
+            <circle cx="300" cy="500" r="40" fill="url(#innerGlow)" class="core-star" />
+
+            <text x="300" y="80" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
+            <text x="300" y="125" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
+            <text x="300" y="160" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
+            
+            <text x="300" y="420" text-anchor="middle" class="cmd-text">IV. Keep Sabbath Holy</text>
+            <text x="300" y="550" text-anchor="middle" class="cmd-text">V. Honor Father & Mother</text>
+
+            <text x="120" y="450" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
+            <text x="480" y="450" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
+            
+            <text x="120" y="650" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
+            <text x="480" y="650" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
+
+            <text x="300" y="850" text-anchor="middle" class="cmd-text">X. Do not covet</text>
+            
+            <text x="300" y="920" text-anchor="middle" style="fill:#00d4ff; font-size: 12px; opacity: 0.5; letter-spacing: 10px;">ESSENCE</text>
         </g>
-
-        <circle cx="300" cy="500" r="50" fill="url(#innerGlow)" class="core-star" />
-
-        <text x="300" y="60" text-anchor="middle" class="cmd-text divine-law">I. No other gods</text>
-        <text x="300" y="140" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">II. No Idols</text>
-        <text x="300" y="175" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">III. Name not in Vain</text>
-        
-        <text x="300" y="440" text-anchor="middle" class="cmd-text">IV. Sabbath Holy</text>
-        <text x="300" y="580" text-anchor="middle" class="cmd-text" style="fill:#fff">V. Honor Parents</text>
-
-        <text x="100" y="400" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VI. No Murder</text>
-        <text x="500" y="400" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VII. No Adultery</text>
-        
-        <text x="100" y="620" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VIII. No Stealing</text>
-        <text x="500" y="620" text-anchor="middle" class="cmd-text" style="font-size: 12px;">IX. No Witness</text>
-
-        <text x="300" y="880" text-anchor="middle" class="cmd-text">X. Do not covet</text>
-        
-        <text x="300" y="950" text-anchor="middle" style="fill:#00d4ff; font-size: 12px; opacity: 0.5; letter-spacing: 8px;">SUBSTANCE</text>
     </svg>
 </div>
 
