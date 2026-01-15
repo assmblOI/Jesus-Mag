@@ -6,13 +6,13 @@
     <title>The Decalogue: Substantial Essence</title>
     <style>
         :root {
-            --halo-scale: 1.05;
-            --breath-speed: 6s;
+            --halo-max: 1.1;
+            --text-scale: 1;
         }
 
         body { 
             margin: 0; 
-            background: #010309; 
+            background: radial-gradient(circle at center, #0a1020 0%, #010309 100%);
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -32,72 +32,81 @@
         }
 
         svg { 
-            width: 100%; 
-            height: 100%;
+            width: 110%; /* Slight bleed for scale */
+            height: 110%;
         }
 
         .cmd-text { 
             fill: rgba(255, 255, 255, 0.95); 
-            font-size: 16px; 
+            font-size: 18px; 
             text-transform: uppercase; 
-            letter-spacing: 2px; 
+            letter-spacing: 3px; 
             font-weight: bold; 
-            filter: drop-shadow(0 0 5px #00d4ff);
-            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 8px #00d4ff);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .divine-law { 
             fill: #ffdf80; 
-            filter: drop-shadow(0 0 10px #ffdf80); 
+            filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
-        /* Animations */
+        /* Breathing Animations */
         @keyframes breathScale {
-            0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(var(--halo-scale)); opacity: 0.8; }
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(var(--halo-max)); opacity: 0.9; }
         }
 
         @keyframes corePulse {
-            0%, 100% { filter: blur(10px) brightness(1); transform: scale(1); }
-            50% { filter: blur(25px) brightness(1.8); transform: scale(1.2); }
+            0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); }
+            50% { filter: blur(40px) brightness(2); transform: scale(1.4); }
         }
 
         .scaffolding { 
             stroke: #00d4ff; 
-            stroke-width: 1; 
+            stroke-width: 1.5; 
             fill: none; 
-            transform-origin: center;
-            animation: breathScale var(--breath-speed) infinite ease-in-out;
+            transform-origin: 300px 500px;
+            animation: breathScale 6s infinite ease-in-out;
         }
 
         .core-star { 
-            transform-origin: center;
+            transform-origin: 300px 500px;
             animation: corePulse 4s infinite ease-in-out; 
         }
 
-        /* DESKTOP / HORIZONTAL SETTINGS */
+        /* HORIZONTAL / DESKTOP SETTINGS */
         @media (min-aspect-ratio: 1/1) {
             :root {
-                --halo-scale: 1.25; /* Double the breathing expansion effect */
+                --halo-max: 2.2; /* Double the breath size for wide screens */
+                --text-scale: 1.3; /* Increased size for depth feel */
             }
-            /* Avalanche dispersion: Moving texts far apart */
-            .cmd-I { transform: translate(-150px, -50px); }
-            .cmd-II { transform: translate(-200px, 50px); }
-            .cmd-III { transform: translate(200px, 50px); }
-            .cmd-VI { transform: translate(-220px, 0); }
-            .cmd-VII { transform: translate(220px, 0); }
-            .cmd-VIII { transform: translate(-250px, 50px); }
-            .cmd-IX { transform: translate(250px, 50px); }
+            .cmd-text { font-size: 22px; }
+            
+            /* Avalanche Dispersion with Depth */
+            .cmd-I { transform: translate(0, -80px) scale(1.5); } /* Center Top */
+            .cmd-II { transform: translate(-250px, -40px); }
+            .cmd-III { transform: translate(250px, -40px); }
+            
+            .cmd-VI { transform: translate(-320px, 0) scale(var(--text-scale)); }
+            .cmd-VII { transform: translate(320px, 0) scale(var(--text-scale)); }
+            
+            .cmd-VIII { transform: translate(-380px, 120px) scale(0.9); opacity: 0.7; }
+            .cmd-IX { transform: translate(380px, 120px) scale(0.9); opacity: 0.7; }
+            
+            .cmd-X { transform: translate(0, 50px) scale(1.2); }
         }
 
-        /* MOBILE / VERTICAL SETTINGS */
+        /* VERTICAL / MOBILE SETTINGS */
         @media (max-aspect-ratio: 1/1) {
-            /* Shift the whole contents of the SVG upward */
-            .main-group { transform: translateY(-80px); }
-            .cmd-text { font-size: 18px; }
-            /* Keep text contained horizontally */
-            .cmd-VI, .cmd-VIII { transform: translateX(30px); }
-            .cmd-VII, .cmd-IX { transform: translateX(-30px); }
+            .main-group { transform: translateY(-120px); } /* Move it up higher */
+            .cmd-text { font-size: 16px; letter-spacing: 1px; }
+            /* Keep vertical texts centered or tight */
+            .cmd-I, .cmd-II, .cmd-III, .cmd-IV, .cmd-V, .cmd-X { transform: translate(0, 0); }
+            .cmd-VI { transform: translate(-60px, 30px); }
+            .cmd-VII { transform: translate(60px, 30px); }
+            .cmd-VIII { transform: translate(-60px, 60px); }
+            .cmd-IX { transform: translate(60px, 60px); }
         }
     </style>
 </head>
@@ -108,39 +117,39 @@
         <defs>
             <radialGradient id="innerGlow">
                 <stop offset="0%" stop-color="#fff" />
-                <stop offset="40%" stop-color="#00d4ff" />
+                <stop offset="30%" stop-color="#00d4ff" />
                 <stop offset="100%" stop-color="transparent" />
             </radialGradient>
         </defs>
 
         <g class="main-group">
-            <path d="M300,150 c-30,0 -50,25 -50,55 c0,30 20,55 50,55 s50,-25 50,-55 c0,-30 -20,-55 -50,-55 M250,270 c-60,10 -80,40 -90,100 l-30,150 c-5,20 10,35 25,25 l20,-70 l10,250 l-30,120 l70,0 l35,-180 l35,180 l70,0 l-30,-120 l10,-250 l20,70 c15,10 30,-5 25,-25 l-30,-150 c-10,-60 -30,-90 -90,-100 Z" 
-                  fill="rgba(0, 212, 255, 0.05)" stroke="rgba(255, 255, 255, 0.2)" />
+            <path d="M300,120 c-40,0 -65,30 -65,75 c0,45 25,75 65,75 s65,-30 65,-75 c0,-45 -25,-75 -65,-75 M230,280 c-80,15 -110,60 -125,140 l-45,220 c-5,30 20,45 40,35 l30,-100 l15,360 l-60,140 l90,0 l50,-240 l50,240 l90,0 l-60,-140 l15,-360 l30,100 c25,10 45,-5 40,-35 l-45,-220 c-15,-80 -45,-125 -125,-140 Z" 
+                  fill="rgba(0, 212, 255, 0.08)" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" />
 
             <g class="scaffolding">
-                <circle cx="300" cy="500" r="300" stroke-dasharray="10,10" />
-                <rect x="150" y="350" width="300" height="300" transform="rotate(45 300 500)" />
-                <circle cx="300" cy="500" r="150" />
+                <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
+                <circle cx="300" cy="500" r="180" />
+                <polygon points="300,100 600,500 300,900 0,500" opacity="0.4"/>
             </g>
 
-            <circle cx="300" cy="500" r="40" fill="url(#innerGlow)" class="core-star" />
+            <circle cx="300" cy="500" r="60" fill="url(#innerGlow)" class="core-star" />
 
-            <text x="300" y="80" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
-            <text x="300" y="125" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
-            <text x="300" y="160" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
+            <text x="300" y="70" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
+            <text x="300" y="145" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
+            <text x="300" y="185" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
             
-            <text x="300" y="420" text-anchor="middle" class="cmd-text">IV. Keep Sabbath Holy</text>
-            <text x="300" y="550" text-anchor="middle" class="cmd-text">V. Honor Father & Mother</text>
+            <text x="300" y="440" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
+            <text x="300" y="560" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
 
-            <text x="120" y="450" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
-            <text x="480" y="450" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
+            <text x="140" y="480" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
+            <text x="460" y="480" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
             
-            <text x="120" y="650" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
-            <text x="480" y="650" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
+            <text x="140" y="680" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
+            <text x="460" y="680" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
 
-            <text x="300" y="850" text-anchor="middle" class="cmd-text">X. Do not covet</text>
+            <text x="300" y="900" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
             
-            <text x="300" y="920" text-anchor="middle" style="fill:#00d4ff; font-size: 12px; opacity: 0.5; letter-spacing: 10px;">ESSENCE</text>
+            <text x="300" y="970" text-anchor="middle" style="fill:#00d4ff; font-size: 14px; opacity: 0.6; letter-spacing: 12px;">SUBSTANCE</text>
         </g>
     </svg>
 </div>
