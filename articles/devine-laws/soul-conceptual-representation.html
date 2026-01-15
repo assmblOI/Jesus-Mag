@@ -7,131 +7,131 @@
     <style>
         body { 
             margin: 0; 
-            background: #02040a; 
+            background: #010309; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
-            width: 100%;
+            width: 100vw;
             font-family: 'Garamond', serif; 
             color: #fff; 
             overflow: hidden; 
         }
 
-        /* Fully Responsive Container */
+        /* Container that allows the SVG to "bleed" slightly off-screen for scale */
         #canvas-wrapper {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
-            box-sizing: border-box;
+            overflow: visible;
         }
 
         svg { 
-            width: 100%; 
-            height: 100%;
-            max-width: 100vw;
-            max-height: 95vh; /* Prevents vertical cutoff on mobile */
+            /* This makes the image feel massive on mobile */
+            width: 120vw; 
+            height: 110vh;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
         }
         
-        /* Typography Styles - Scalable */
+        /* Responsive Text: Narrower on mobile, wider on desktop */
         .cmd-text { 
-            fill: rgba(255, 255, 255, 0.9); 
-            font-size: 16px; 
+            fill: rgba(255, 255, 255, 0.95); 
+            font-size: 18px; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
             font-weight: bold; 
-            filter: drop-shadow(0 0 3px #00d4ff);
-        }
-
-        /* Adjust font for smaller screens */
-        @media (max-width: 600px) {
-            .cmd-text { font-size: 18px; } /* Slightly larger for readability on high-res mobile */
-            .sub-label { font-size: 10px !important; }
+            filter: drop-shadow(0 0 5px #00d4ff);
         }
 
         .divine-law { 
             fill: #ffdf80; 
-            filter: drop-shadow(0 0 8px #ffdf80); 
-        }
-        
-        /* Living Animations */
-        @keyframes breathe {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.03); }
+            filter: drop-shadow(0 0 10px #ffdf80); 
         }
 
-        @keyframes halo-glow {
-            0%, 100% { filter: blur(8px) brightness(1); opacity: 0.6; }
-            50% { filter: blur(15px) brightness(1.6); opacity: 1; }
+        /* Animations */
+        @keyframes breathScale {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.08); opacity: 0.7; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: blur(10px) brightness(1); }
+            50% { filter: blur(25px) brightness(1.8); }
         }
 
         .scaffolding { 
             stroke: #00d4ff; 
-            stroke-width: 1; 
+            stroke-width: 1.2; 
             fill: none; 
             transform-origin: center;
-            animation: breathe 5s infinite ease-in-out;
+            animation: breathScale 7s infinite ease-in-out;
         }
 
-        .glow-core { 
-            animation: halo-glow 3s infinite ease-in-out; 
+        .core-star { 
+            animation: pulseGlow 4s infinite ease-in-out; 
         }
 
-        .human-path {
-            stroke: rgba(255, 255, 255, 0.2);
-            stroke-width: 1.5;
-            fill: rgba(0, 212, 255, 0.05);
+        .human-silhouette {
+            stroke: rgba(255, 255, 255, 0.25);
+            stroke-width: 1;
+            fill: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 80%);
+        }
+
+        /* Media Query for Desktop to keep it from getting TOO big */
+        @media (min-aspect-ratio: 1/1) {
+            svg {
+                width: 90vh;
+                height: 90vh;
+            }
+            .cmd-text { font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
 <div id="canvas-wrapper">
-    <svg viewBox="0 0 800 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 600 1000" preserveAspectRatio="xMidYMid slice">
         <defs>
-            <radialGradient id="bgGradient">
-                <stop offset="0%" stop-color="#1a3a5a" />
-                <stop offset="100%" stop-color="#02040a" />
-            </radialGradient>
-            <radialGradient id="coreGlow">
+            <radialGradient id="innerGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#fff" />
-                <stop offset="100%" stop-color="#00d4ff" />
+                <stop offset="30%" stop-color="#00d4ff" />
+                <stop offset="100%" stop-color="transparent" />
             </radialGradient>
         </defs>
 
-        <circle cx="400" cy="450" r="400" fill="url(#bgGradient)" opacity="0.4"/>
+        <circle cx="300" cy="500" r="450" fill="url(#innerGlow)" opacity="0.05" />
 
-        <path class="human-path" d="M400,100 
-            c-35,0 -55,30 -55,65 c0,35 25,65 55,65 s55,-30 55,-65 c0,-35 -20,-65 -55,-65
-            M340,230 c-70,15 -100,50 -110,120 l-40,180 c-5,25 15,40 35,30 l25,-80 l15,300 l-40,140 l80,0 l40,-180 l40,180 l80,0 l-40,-140 l15,-300 l25,80 c20,10 40,-5 35,-30 l-40,-180 c-10,-70 -40,-105 -110,-120 Z" />
+        <path class="human-silhouette" d="M300,100 
+            c-40,0 -60,35 -60,75 c0,40 30,75 60,75 s60,-35 60,-75 c0,-40 -20,-75 -60,-75
+            M240,250 c-80,20 -110,60 -120,140 l-40,200 c-5,30 20,45 40,35 l25,-100 l15,350 l-50,150 l100,0 l40,-220 l40,220 l100,0 l-50,-150 l15,-350 l25,100 c25,10 45,-5 40,-35 l-40,-200 c-10,-80 -40,-120 -120,-140 Z" />
 
         <g class="scaffolding">
-            <circle cx="400" cy="450" r="260" stroke-dasharray="8,8"/>
-            <polygon points="400,190 660,450 400,710 140,450" />
-            <rect x="230" y="280" width="340" height="340" transform="rotate(45 400 450)" />
+            <circle cx="300" cy="500" r="320" stroke-dasharray="10,10" opacity="0.3"/>
+            <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
+            <polygon points="300,150 550,500 300,850 50,500" opacity="0.6"/>
+            <circle cx="300" cy="500" r="120" />
         </g>
 
-        <circle cx="400" cy="450" r="45" fill="url(#coreGlow)" class="glow-core" />
+        <circle cx="300" cy="500" r="50" fill="url(#innerGlow)" class="core-star" />
 
-        <text x="400" y="60" text-anchor="middle" class="cmd-text divine-law">I. No other gods before Me</text>
-        <text x="400" y="145" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">II. No Idols</text>
-        <text x="400" y="180" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">III. Name not in Vain</text>
+        <text x="300" y="60" text-anchor="middle" class="cmd-text divine-law">I. No other gods</text>
+        <text x="300" y="140" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">II. No Idols</text>
+        <text x="300" y="175" text-anchor="middle" class="cmd-text divine-law" style="font-size: 14px;">III. Name not in Vain</text>
         
-        <text x="400" y="380" text-anchor="middle" class="cmd-text">IV. Keep Sabbath Holy</text>
-        <text x="400" y="530" text-anchor="middle" class="cmd-text" style="fill:#fff">V. Honor Father & Mother</text>
+        <text x="300" y="440" text-anchor="middle" class="cmd-text">IV. Sabbath Holy</text>
+        <text x="300" y="580" text-anchor="middle" class="cmd-text" style="fill:#fff">V. Honor Parents</text>
 
-        <text x="120" y="360" text-anchor="end" class="cmd-text">VI. No Murder</text>
-        <text x="680" y="360" text-anchor="start" class="cmd-text">VII. No Adultery</text>
+        <text x="100" y="400" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VI. No Murder</text>
+        <text x="500" y="400" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VII. No Adultery</text>
         
-        <text x="100" y="580" text-anchor="end" class="cmd-text">VIII. No Stealing</text>
-        <text x="700" y="580" text-anchor="start" class="cmd-text">IX. No False Witness</text>
+        <text x="100" y="620" text-anchor="middle" class="cmd-text" style="font-size: 12px;">VIII. No Stealing</text>
+        <text x="500" y="620" text-anchor="middle" class="cmd-text" style="font-size: 12px;">IX. No Witness</text>
 
-        <text x="400" y="820" text-anchor="middle" class="cmd-text">X. You shall not covet</text>
+        <text x="300" y="880" text-anchor="middle" class="cmd-text">X. Do not covet</text>
         
-        <text x="400" y="870" text-anchor="middle" class="sub-label" style="fill:#00d4ff; font-size: 12px; opacity: 0.6; letter-spacing: 5px;">FORMATION OF BEING</text>
+        <text x="300" y="950" text-anchor="middle" style="fill:#00d4ff; font-size: 12px; opacity: 0.5; letter-spacing: 8px;">SUBSTANCE</text>
     </svg>
 </div>
 
