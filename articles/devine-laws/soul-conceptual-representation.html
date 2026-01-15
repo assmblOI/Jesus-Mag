@@ -3,92 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Decalogue: Essence of Being</title>
+    <title>The Decalogue: Substantial Essence</title>
     <style>
-        :root {
-            --gold: #ffcf40;
-            --blue: #00f2ff;
-            --bg: #030712;
+        body { 
+            margin: 0; 
+            background: #02040a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            width: 100vw;
+            font-family: 'Garamond', serif; 
+            color: #fff; 
+            overflow: hidden; 
         }
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg);
+
+        /* Responsive Container */
+        #canvas-wrapper {
+            width: 95vmin; /* Scales based on the smaller screen dimension */
+            height: 95vmin;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            font-family: 'Cinzel', serif; /* Or any elegant font */
         }
-        .container {
-            width: 95vw;
-            height: 95vh;
-            max-width: 800px;
-            position: relative;
+
+        svg { 
+            width: 100%; 
+            height: 100%; 
         }
-        svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.2));
-        }
-        .law-text {
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            pointer-events: none;
-        }
-        .divine { fill: var(--gold); filter: drop-shadow(0 0 5px var(--gold)); }
-        .social { fill: var(--blue); filter: drop-shadow(0 0 5px var(--blue)); }
         
-        /* Pulse Animation for the Core */
-        @keyframes glowPulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.4; }
+        /* Typography Styles */
+        .cmd-text { 
+            fill: rgba(255, 255, 255, 0.9); 
+            font-size: 16px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: bold; 
+            filter: drop-shadow(0 0 5px #00d4ff);
         }
-        .essence-core {
-            animation: glowPulse 4s infinite ease-in-out;
+        .divine-law { 
+            fill: #ffdf80; 
+            filter: drop-shadow(0 0 8px #ffdf80); 
+        }
+        
+        /* Breathing Animations */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes halo-glow {
+            0%, 100% { filter: blur(10px) brightness(1); }
+            50% { filter: blur(18px) brightness(1.5); }
+        }
+
+        .scaffolding { 
+            stroke: #00d4ff; 
+            stroke-width: 0.8; 
+            fill: none; 
+            transform-origin: center;
+            animation: breathe 6s infinite ease-in-out;
+        }
+
+        .glow-core { 
+            animation: halo-glow 4s infinite ease-in-out; 
+        }
+
+        .human-path {
+            stroke: rgba(255, 255, 255, 0.15);
+            stroke-width: 1.5;
+            fill: rgba(0, 212, 255, 0.03);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet">
+<div id="canvas-wrapper">
+    <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet">
         <defs>
-            <radialGradient id="soulGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" style="stop-color:white; stop-opacity:0.3" />
-                <stop offset="100%" style="stop-color:var(--blue); stop-opacity:0" />
+            <radialGradient id="bgGradient">
+                <stop offset="0%" stop-color="#1a3a5a" />
+                <stop offset="100%" stop-color="#02040a" />
+            </radialGradient>
+            <radialGradient id="coreGlow">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="100%" stop-color="#00d4ff" />
             </radialGradient>
         </defs>
 
-        <path d="M200,40 c-20,0 -35,15 -35,35 c0,20 15,35 35,35 s35,-15 35,-35 c0,-20 -15,-35 -35,-35 M165,115 c-40,5 -70,30 -80,80 l-15,100 c-5,15 10,25 20,20 l15,-50 l5,200 l-20,100 l40,5 l30,-100 l40,0 l30,100 l40,-5 l-20,-100 l5,-200 l15,50 c10,5 25,-5 20,-20 l-15,-100 c-10,-50 -40,-75 -80,-80 Z" 
-              fill="url(#soulGlow)" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+        <circle cx="400" cy="400" r="380" fill="url(#bgGradient)" opacity="0.5"/>
 
-        <g class="essence-core" stroke="rgba(0, 242, 255, 0.3)" stroke-width="0.5">
-            <line x1="200" y1="40" x2="200" y2="570" /> <circle cx="200" cy="220" r="100" fill="none" /> <path d="M120,220 L200,100 L280,220 L200,340 Z" fill="none" />
+        <path class="human-path" d="M400,50 
+            c-30,0 -50,25 -50,55 c0,30 20,55 50,55 s50,-25 50,-55 c0,-30 -20,-55 -50,-55
+            M350,165 c-60,10 -90,40 -100,100 l-30,150 c-5,20 15,35 30,25 l20,-70 l10,280 l-30,120 l60,0 l40,-150 l40,150 l60,0 l-30,-120 l10,-280 l20,70 c15,10 35,-5 30,-25 l-30,-150 c-10,-60 -40,-90 -100,-100 Z" />
+
+        <g class="scaffolding">
+            <circle cx="400" cy="400" r="240" stroke-dasharray="5,5"/>
+            <polygon points="400,160 640,400 400,640 160,400" />
+            <rect x="230" y="230" width="340" height="340" transform="rotate(45 400 400)" />
+            <circle cx="400" cy="400" r="100" />
         </g>
 
-        <text x="200" y="30" text-anchor="middle" class="law-text divine">I. No other gods before Me</text>
-        <text x="140" y="75" text-anchor="end" class="law-text divine">II. No Idols</text>
-        <text x="260" y="75" text-anchor="start" class="law-text divine">III. Name not in Vain</text>
-        
-        <text x="200" y="150" text-anchor="middle" class="law-text divine">IV. Keep Sabbath Holy</text>
+        <circle cx="400" cy="400" r="40" fill="url(#coreGlow)" class="glow-core" />
 
-        <text x="200" y="225" text-anchor="middle" class="law-text social">V. Honor Father & Mother</text>
+        <text x="400" y="40" text-anchor="middle" class="cmd-text divine-law">I. No other gods before Me</text>
+        <text x="400" y="105" text-anchor="middle" class="cmd-text divine-law" style="font-size: 12px;">II. No Idols</text>
+        <text x="400" y="135" text-anchor="middle" class="cmd-text divine-law" style="font-size: 12px;">III. Name not in Vain</text>
         
-        <text x="100" y="280" text-anchor="middle" class="law-text social">VI. No Murder</text>
-        <text x="300" y="280" text-anchor="middle" class="law-text social">VII. No Adultery</text>
-        
-        <text x="110" y="380" text-anchor="middle" class="law-text social">VIII. No Stealing</text>
-        <text x="290" y="380" text-anchor="middle" class="law-text social">IX. No False Witness</text>
+        <text x="400" y="340" text-anchor="middle" class="cmd-text">IV. Keep Sabbath Holy</text>
+        <text x="400" y="470" text-anchor="middle" class="cmd-text" style="fill:#fff">V. Honor Father & Mother</text>
 
-        <text x="200" y="520" text-anchor="middle" class="law-text social">X. Do not covet</text>
+        <text x="140" y="320" text-anchor="end" class="cmd-text">VI. No Murder</text>
+        <text x="660" y="320" text-anchor="start" class="cmd-text">VII. No Adultery</text>
         
-        <text x="200" y="580" text-anchor="middle" style="fill:white; opacity:0.3; font-size:10px;">FORMATION OF SUBSTANCE : DECALOGUE SCAFFOLDING</text>
+        <text x="120" y="520" text-anchor="end" class="cmd-text">VIII. No Stealing</text>
+        <text x="680" y="520" text-anchor="start" class="cmd-text">IX. No False Witness</text>
+
+        <text x="400" y="740" text-anchor="middle" class="cmd-text">X. You shall not covet</text>
+        
+        <text x="400" y="780" text-anchor="middle" style="fill:#00d4ff; font-size: 11px; opacity: 0.6; letter-spacing: 4px;">SUBSTANTIAL FORM : DECALOGUE</text>
     </svg>
 </div>
 
