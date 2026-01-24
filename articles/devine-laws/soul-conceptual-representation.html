@@ -12,11 +12,11 @@
         body { 
             margin: 0; 
             background: radial-gradient(circle at center, #0a1020 0%, #010309 100%);
-            /* Using grid to force absolute midpoint centering */
+            /* GRID is the secret—it forces the child to the absolute center of the browser window */
             display: grid;
             place-items: center;
             height: 100vh;
-            height: 100dvh; /* Dynamic viewport height for modern mobile browsers */
+            height: 100dvh; 
             width: 100vw;
             font-family: 'Garamond', serif; 
             color: #fff; 
@@ -24,18 +24,19 @@
         }
 
         #canvas-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
+            /* This ensures the design never feels 'squashed' or 'stretched' regardless of screen shape */
+            width: 100vmin; 
+            height: 100vmin;
             display: flex;
             justify-content: center;
             align-items: center;
-            max-width: 500px; /* Prevents text from hitting side edges on wide phones */
+            position: relative;
         }
 
         svg { 
-            width: 90%; /* Creates a natural imaginary margin on the sides */
-            height: 90%; /* Creates a natural imaginary margin on top/bottom */
+            /* We use 95% to ensure the "imaginary margin" you asked for */
+            width: 95%; 
+            height: 95%;
             overflow: visible; 
         }
 
@@ -46,7 +47,7 @@
             letter-spacing: 2px; 
             font-weight: bold; 
             filter: drop-shadow(0 0 8px #00d4ff);
-            transition: transform 0.8s ease-in-out;
+            transition: all 0.8s ease-in-out;
         }
 
         .divine-law { 
@@ -54,13 +55,11 @@
             filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
-        /* Halo Only Animation - Static Scaffolding */
         @keyframes breathGlow {
             0%, 100% { opacity: 0.4; stroke: #00d4ff; }
             50% { opacity: 0.8; stroke: #ffdf80; }
         }
 
-        /* Gargantuan Core Pulse */
         @keyframes corePulse {
             0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); fill: url(#blueGlow); }
             50% { filter: blur(50px) brightness(3); transform: scale(3.5); fill: url(#goldGlow); }
@@ -78,24 +77,23 @@
             animation: corePulse 5s infinite ease-in-out; 
         }
 
-        /* DESKTOP SETTINGS (Widescreen) */
+        /* UNIVERSAL ADAPTATION */
         @media (min-aspect-ratio: 1/1) {
-            #canvas-wrapper { max-width: none; }
-            .cmd-text { font-size: 22px; }
-            .cmd-I { transform: translate(0, 50px); }
-            .cmd-X { transform: translate(0, -50px); }
-            .cmd-II { transform: translate(-240px, 20px); }
-            .cmd-III { transform: translate(240px, 20px); }
-            .cmd-VI { transform: translate(-320px, 0); }
-            .cmd-VII { transform: translate(320px, 0); }
-            .cmd-VIII { transform: translate(-360px, 80px) scale(0.9); opacity: 0.7; }
-            .cmd-IX { transform: translate(360px, 80px) scale(0.9); opacity: 0.7; }
+            /* Desktop / Widescreen Adjustments */
+            .cmd-text { font-size: 20px; }
+            .cmd-I { transform: translate(0, 40px); }
+            .cmd-X { transform: translate(0, -40px); }
+            .cmd-II { transform: translate(-220px, 20px); }
+            .cmd-III { transform: translate(220px, 20px); }
+            .cmd-VI { transform: translate(-280px, 0); }
+            .cmd-VII { transform: translate(280px, 0); }
+            .cmd-VIII { transform: translate(-320px, 80px) scale(0.9); opacity: 0.7; }
+            .cmd-IX { transform: translate(320px, 80px) scale(0.9); opacity: 0.7; }
         }
 
-        /* MOBILE SETTINGS (Vertical) */
         @media (max-aspect-ratio: 1/1) {
+            /* Mobile / Vertical Adjustments */
             .cmd-text { font-size: 16px; }
-            /* No manual translateY here - let the Grid Center handle it */
             .cmd-VI { transform: translate(-80px, 20px); }
             .cmd-VII { transform: translate(80px, 20px); }
             .cmd-VIII { transform: translate(-80px, 50px); }
