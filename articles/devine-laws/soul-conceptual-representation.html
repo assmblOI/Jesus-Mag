@@ -7,12 +7,13 @@
     <style>
         :root {
             --breath-speed: 6s;
-            --safe-margin: 40px; /* This is your imaginary margin */
+            --safe-margin: 5vh; /* Responsive vertical margin */
         }
 
         body { 
             margin: 0; 
             background: radial-gradient(circle at center, #0a1020 0%, #010309 100%);
+            /* Force the body to be a rigid container for the flex child */
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -24,9 +25,9 @@
         }
 
         #canvas-wrapper {
-            /* Ensures the diagram always fits inside the screen with a gap */
-            width: calc(100% - var(--safe-margin));
-            height: calc(100% - var(--safe-margin));
+            /* This container now sits exactly in the middle of the screen */
+            width: 90%;
+            height: 90%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,7 +36,7 @@
         svg { 
             width: 100%; 
             height: 100%;
-            /* 'meet' ensures the whole SVG is visible without cropping */
+            /* 'meet' ensures the center of the SVG stays at the center of the container */
             overflow: visible; 
         }
 
@@ -46,7 +47,7 @@
             letter-spacing: 2px; 
             font-weight: bold; 
             filter: drop-shadow(0 0 8px #00d4ff);
-            transition: all 0.5s ease;
+            transition: transform 0.8s ease-in-out;
         }
 
         .divine-law { 
@@ -54,13 +55,11 @@
             filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
-        /* Fixed Scaffolding: Glow only */
         @keyframes breathGlow {
             0%, 100% { opacity: 0.4; stroke: #00d4ff; }
             50% { opacity: 0.8; stroke: #ffdf80; }
         }
 
-        /* Massive Halo Expansion */
         @keyframes corePulse {
             0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); fill: url(#blueGlow); }
             50% { filter: blur(50px) brightness(3); transform: scale(3.5); fill: url(#goldGlow); }
@@ -78,27 +77,27 @@
             animation: corePulse 5s infinite ease-in-out; 
         }
 
-        /* Adaptive Positions using Percentages/Offsets that respect the 'Imaginary Margin' */
+        /* Desktop Avalanche Alignment */
         @media (min-aspect-ratio: 1/1) {
             .cmd-text { font-size: 22px; }
-            /* Spread on Desktop */
-            .cmd-I { transform: translate(0, 20px); }
-            .cmd-II { transform: translate(-220px, 0); }
-            .cmd-III { transform: translate(220px, 0); }
+            .cmd-I { transform: translate(0, 40px); }
+            .cmd-II { transform: translate(-230px, 20px); }
+            .cmd-III { transform: translate(230px, 20px); }
             .cmd-VI { transform: translate(-280px, 0); }
             .cmd-VII { transform: translate(280px, 0); }
-            .cmd-VIII { transform: translate(-320px, 50px) scale(0.9); opacity: 0.7; }
-            .cmd-IX { transform: translate(320px, 50px) scale(0.9); opacity: 0.7; }
-            .cmd-X { transform: translate(0, -20px); }
+            .cmd-VIII { transform: translate(-330px, 60px) scale(0.9); opacity: 0.7; }
+            .cmd-IX { transform: translate(330px, 60px) scale(0.9); opacity: 0.7; }
+            .cmd-X { transform: translate(0, -40px); }
         }
 
+        /* Mobile Precise Alignment */
         @media (max-aspect-ratio: 1/1) {
-            .cmd-text { font-size: 16px; }
-            /* Tighten for Mobile */
-            .cmd-VI { transform: translate(-60px, 20px); }
-            .cmd-VII { transform: translate(60px, 20px); }
-            .cmd-VIII { transform: translate(-60px, 40px); }
-            .cmd-IX { transform: translate(60px, 40px); }
+            .cmd-text { font-size: 17px; }
+            /* No translateY here! We let flexbox do the work */
+            .cmd-VI { transform: translate(-70px, 15px); }
+            .cmd-VII { transform: translate(70px, 15px); }
+            .cmd-VIII { transform: translate(-70px, 45px); }
+            .cmd-IX { transform: translate(70px, 45px); }
         }
     </style>
 </head>
@@ -120,33 +119,33 @@
         </defs>
 
         <g class="main-group">
-            <path d="M300,120 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,290 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
+            <path d="M300,100 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,270 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
                   fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" />
 
             <g class="scaffolding">
-                <rect x="100" y="320" width="400" height="400" transform="rotate(45 300 520)" />
-                <circle cx="300" cy="520" r="210" />
-                <path d="M300,80 L560,520 L300,920 L40,520 Z" opacity="0.4"/>
+                <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
+                <circle cx="300" cy="500" r="210" />
+                <path d="M300,50 L570,500 L300,950 L30,500 Z" opacity="0.4"/>
             </g>
 
-            <circle cx="300" cy="520" r="65" class="core-star" />
+            <circle cx="300" cy="500" r="65" class="core-star" />
 
-            <text x="300" y="100" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
-            <text x="300" y="160" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
-            <text x="300" y="200" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
+            <text x="300" y="90" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
+            <text x="300" y="150" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
+            <text x="300" y="190" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
             
-            <text x="300" y="460" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
-            <text x="300" y="580" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
+            <text x="300" y="440" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
+            <text x="300" y="560" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
 
-            <text x="140" y="500" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
-            <text x="460" y="500" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
+            <text x="140" y="480" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
+            <text x="460" y="480" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
             
-            <text x="140" y="720" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
-            <text x="460" y="720" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
+            <text x="140" y="700" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
+            <text x="460" y="700" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
 
-            <text x="300" y="880" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
+            <text x="300" y="910" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
             
-            <text x="300" y="960" text-anchor="middle" style="fill:#ffdf80; font-size: 14px; opacity: 0.6; letter-spacing: 15px;">SUBSTANCE</text>
+            <text x="300" y="970" text-anchor="middle" style="fill:#ffdf80; font-size: 14px; opacity: 0.6; letter-spacing: 15px;">SUBSTANCE</text>
         </g>
     </svg>
 </div>
