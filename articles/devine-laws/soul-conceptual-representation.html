@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Decalogue: Substantial Essence</title>
     <style>
         :root {
             --breath-speed: 6s;
-            --safe-margin: 5vh; /* Responsive vertical margin */
         }
 
         body { 
             margin: 0; 
             background: radial-gradient(circle at center, #0a1020 0%, #010309 100%);
-            /* Force the body to be a rigid container for the flex child */
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            /* svh accounts for mobile browser address bars better than vh */
+            height: 100svh; 
             width: 100vw;
             font-family: 'Garamond', serif; 
             color: #fff; 
@@ -25,18 +24,18 @@
         }
 
         #canvas-wrapper {
-            /* This container now sits exactly in the middle of the screen */
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         svg { 
             width: 100%; 
             height: 100%;
-            /* 'meet' ensures the center of the SVG stays at the center of the container */
             overflow: visible; 
         }
 
@@ -55,11 +54,13 @@
             filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
+        /* Fixed Scaffolding Glow */
         @keyframes breathGlow {
             0%, 100% { opacity: 0.4; stroke: #00d4ff; }
             50% { opacity: 0.8; stroke: #ffdf80; }
         }
 
+        /* Massive Core Pulse (3.5x scale) */
         @keyframes corePulse {
             0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); fill: url(#blueGlow); }
             50% { filter: blur(50px) brightness(3); transform: scale(3.5); fill: url(#goldGlow); }
@@ -77,23 +78,25 @@
             animation: corePulse 5s infinite ease-in-out; 
         }
 
-        /* Desktop Avalanche Alignment */
+        /* DESKTOP SETTINGS */
         @media (min-aspect-ratio: 1/1) {
             .cmd-text { font-size: 22px; }
             .cmd-I { transform: translate(0, 40px); }
-            .cmd-II { transform: translate(-230px, 20px); }
-            .cmd-III { transform: translate(230px, 20px); }
-            .cmd-VI { transform: translate(-280px, 0); }
-            .cmd-VII { transform: translate(280px, 0); }
-            .cmd-VIII { transform: translate(-330px, 60px) scale(0.9); opacity: 0.7; }
-            .cmd-IX { transform: translate(330px, 60px) scale(0.9); opacity: 0.7; }
             .cmd-X { transform: translate(0, -40px); }
+            .cmd-II { transform: translate(-240px, 20px); }
+            .cmd-III { transform: translate(240px, 20px); }
+            .cmd-VI { transform: translate(-300px, 0); }
+            .cmd-VII { transform: translate(300px, 0); }
+            .cmd-VIII { transform: translate(-340px, 60px) scale(0.9); opacity: 0.7; }
+            .cmd-IX { transform: translate(340px, 60px) scale(0.9); opacity: 0.7; }
         }
 
-        /* Mobile Precise Alignment */
+        /* MOBILE SETTINGS - Focus on vertical lift */
         @media (max-aspect-ratio: 1/1) {
+            /* This 'lifts' the entire design up slightly to compensate for thumb/nav bars */
+            .main-group { transform: translateY(-40px); }
+            
             .cmd-text { font-size: 17px; }
-            /* No translateY here! We let flexbox do the work */
             .cmd-VI { transform: translate(-70px, 15px); }
             .cmd-VII { transform: translate(70px, 15px); }
             .cmd-VIII { transform: translate(-70px, 45px); }
