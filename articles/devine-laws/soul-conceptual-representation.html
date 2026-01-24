@@ -6,9 +6,8 @@
     <title>The Decalogue: Substantial Essence</title>
     <style>
         :root {
-            --halo-max: 1.1;
-            --text-scale: 1;
             --breath-speed: 6s;
+            --safe-margin: 40px; /* This is your imaginary margin */
         }
 
         body { 
@@ -25,26 +24,29 @@
         }
 
         #canvas-wrapper {
-            width: 100%;
-            height: 100%;
+            /* Ensures the diagram always fits inside the screen with a gap */
+            width: calc(100% - var(--safe-margin));
+            height: calc(100% - var(--safe-margin));
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         svg { 
-            width: 115%; 
-            height: 115%;
+            width: 100%; 
+            height: 100%;
+            /* 'meet' ensures the whole SVG is visible without cropping */
+            overflow: visible; 
         }
 
         .cmd-text { 
             fill: rgba(255, 255, 255, 0.95); 
-            font-size: 18px; 
+            font-size: 20px; 
             text-transform: uppercase; 
-            letter-spacing: 3px; 
+            letter-spacing: 2px; 
             font-weight: bold; 
             filter: drop-shadow(0 0 8px #00d4ff);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s ease;
         }
 
         .divine-law { 
@@ -52,63 +54,51 @@
             filter: drop-shadow(0 0 12px #ffdf80); 
         }
 
-        /* Color Shifting Breathing Animations */
-        @keyframes breathScale {
-            0%, 100% { transform: scale(1); opacity: 0.5; stroke: #00d4ff; }
-            50% { transform: scale(var(--halo-max)); opacity: 0.9; stroke: #ffdf80; }
+        /* Fixed Scaffolding: Glow only */
+        @keyframes breathGlow {
+            0%, 100% { opacity: 0.4; stroke: #00d4ff; }
+            50% { opacity: 0.8; stroke: #ffdf80; }
         }
 
+        /* Massive Halo Expansion */
         @keyframes corePulse {
             0%, 100% { filter: blur(15px) brightness(1); transform: scale(1); fill: url(#blueGlow); }
-            50% { filter: blur(45px) brightness(2.5); transform: scale(1.4); fill: url(#goldGlow); }
-        }
-
-        @keyframes float {
-            0%, 100% { translateY: 0px; }
-            50% { translateY: -10px; }
+            50% { filter: blur(50px) brightness(3); transform: scale(3.5); fill: url(#goldGlow); }
         }
 
         .scaffolding { 
             stroke-width: 1.5; 
             fill: none; 
             transform-origin: 300px 500px;
-            animation: breathScale var(--breath-speed) infinite ease-in-out;
+            animation: breathGlow var(--breath-speed) infinite ease-in-out;
         }
 
         .core-star { 
             transform-origin: 300px 500px;
-            animation: corePulse 4s infinite ease-in-out; 
+            animation: corePulse 5s infinite ease-in-out; 
         }
 
-        /* HORIZONTAL / DESKTOP SETTINGS */
+        /* Adaptive Positions using Percentages/Offsets that respect the 'Imaginary Margin' */
         @media (min-aspect-ratio: 1/1) {
-            :root {
-                --halo-max: 2.3; 
-                --text-scale: 1.4;
-            }
-            .cmd-text { font-size: 24px; animation: float 8s infinite ease-in-out; }
-            
-            .cmd-I { transform: translate(0, -90px) scale(1.6); }
-            .cmd-II { transform: translate(-280px, -50px); }
-            .cmd-III { transform: translate(280px, -50px); }
-            
-            .cmd-VI { transform: translate(-350px, 0) scale(var(--text-scale)); }
-            .cmd-VII { transform: translate(350px, 0) scale(var(--text-scale)); }
-            
-            .cmd-VIII { transform: translate(-420px, 150px) scale(0.85); opacity: 0.6; }
-            .cmd-IX { transform: translate(420px, 150px) scale(0.85); opacity: 0.6; }
-            
-            .cmd-X { transform: translate(0, 70px) scale(1.3); }
+            .cmd-text { font-size: 22px; }
+            /* Spread on Desktop */
+            .cmd-I { transform: translate(0, 20px); }
+            .cmd-II { transform: translate(-220px, 0); }
+            .cmd-III { transform: translate(220px, 0); }
+            .cmd-VI { transform: translate(-280px, 0); }
+            .cmd-VII { transform: translate(280px, 0); }
+            .cmd-VIII { transform: translate(-320px, 50px) scale(0.9); opacity: 0.7; }
+            .cmd-IX { transform: translate(320px, 50px) scale(0.9); opacity: 0.7; }
+            .cmd-X { transform: translate(0, -20px); }
         }
 
-        /* VERTICAL / MOBILE SETTINGS */
         @media (max-aspect-ratio: 1/1) {
-            .main-group { transform: translateY(-130px); }
-            .cmd-text { font-size: 16px; letter-spacing: 1.5px; }
-            .cmd-VI { transform: translate(-70px, 40px); }
-            .cmd-VII { transform: translate(70px, 40px); }
-            .cmd-VIII { transform: translate(-70px, 80px); }
-            .cmd-IX { transform: translate(70px, 80px); }
+            .cmd-text { font-size: 16px; }
+            /* Tighten for Mobile */
+            .cmd-VI { transform: translate(-60px, 20px); }
+            .cmd-VII { transform: translate(60px, 20px); }
+            .cmd-VIII { transform: translate(-60px, 40px); }
+            .cmd-IX { transform: translate(60px, 40px); }
         }
     </style>
 </head>
@@ -130,33 +120,33 @@
         </defs>
 
         <g class="main-group">
-            <path d="M300,100 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,270 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
-                  fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2" />
+            <path d="M300,120 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,290 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
+                  fill="rgba(255, 255, 255, 0.04)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" />
 
             <g class="scaffolding">
-                <rect x="100" y="300" width="400" height="400" transform="rotate(45 300 500)" />
-                <circle cx="300" cy="500" r="200" />
-                <path d="M300,50 L580,500 L300,950 L20,500 Z" opacity="0.4"/>
+                <rect x="100" y="320" width="400" height="400" transform="rotate(45 300 520)" />
+                <circle cx="300" cy="520" r="210" />
+                <path d="M300,80 L560,520 L300,920 L40,520 Z" opacity="0.4"/>
             </g>
 
-            <circle cx="300" cy="500" r="70" class="core-star" />
+            <circle cx="300" cy="520" r="65" class="core-star" />
 
-            <text x="300" y="60" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
-            <text x="300" y="140" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
-            <text x="300" y="180" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
+            <text x="300" y="100" text-anchor="middle" class="cmd-text divine-law cmd-I">I. No other gods before Me</text>
+            <text x="300" y="160" text-anchor="middle" class="cmd-text divine-law cmd-II">II. No Idols</text>
+            <text x="300" y="200" text-anchor="middle" class="cmd-text divine-law cmd-III">III. Name not in Vain</text>
             
-            <text x="300" y="440" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
-            <text x="300" y="560" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
+            <text x="300" y="460" text-anchor="middle" class="cmd-text cmd-IV">IV. Keep Sabbath Holy</text>
+            <text x="300" y="580" text-anchor="middle" class="cmd-text cmd-V">V. Honor Father & Mother</text>
 
-            <text x="140" y="480" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
-            <text x="460" y="480" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
+            <text x="140" y="500" text-anchor="middle" class="cmd-text cmd-VI">VI. No Murder</text>
+            <text x="460" y="500" text-anchor="middle" class="cmd-text cmd-VII">VII. No Adultery</text>
             
-            <text x="140" y="700" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
-            <text x="460" y="700" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
+            <text x="140" y="720" text-anchor="middle" class="cmd-text cmd-VIII">VIII. No Stealing</text>
+            <text x="460" y="720" text-anchor="middle" class="cmd-text cmd-IX">IX. No False Witness</text>
 
-            <text x="300" y="920" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
+            <text x="300" y="880" text-anchor="middle" class="cmd-text cmd-X">X. Do not covet</text>
             
-            <text x="300" y="980" text-anchor="middle" style="fill:#ffdf80; font-size: 14px; opacity: 0.7; letter-spacing: 15px;">SUBSTANCE</text>
+            <text x="300" y="960" text-anchor="middle" style="fill:#ffdf80; font-size: 14px; opacity: 0.6; letter-spacing: 15px;">SUBSTANCE</text>
         </g>
     </svg>
 </div>
