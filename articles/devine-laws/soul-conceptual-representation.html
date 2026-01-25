@@ -27,14 +27,15 @@
             align-items: center;
             width: 100%;
             height: 100%;
-            /* Bumping side padding to 12% to force clear space from the edges */
-            padding: 5% 12%; 
             box-sizing: border-box;
         }
 
         svg { 
             width: 100%;
             height: 100%;
+            /* This ensures the browser respects the internal spacing */
+            max-width: 95vw; 
+            max-height: 95dvh;
             overflow: visible; 
         }
 
@@ -65,41 +66,48 @@
         .scaffolding { 
             stroke-width: 1.5; 
             fill: none; 
-            transform-origin: 300px 500px;
+            transform-origin: 400px 500px;
             animation: breathGlow var(--breath-speed) infinite ease-in-out;
         }
 
         .core-star { 
-            transform-origin: 300px 500px;
+            transform-origin: 400px 500px;
             animation: corePulse 5s infinite ease-in-out; 
         }
 
-        /* Desktop */
-        @media (min-aspect-ratio: 1/1) {
-            .cmd-text { font-size: 20px; }
-            .cmd-II { transform: translate(-230px, 20px); }
-            .cmd-III { transform: translate(230px, 20px); }
-            .cmd-VI { transform: translate(-290px, 0); }
-            .cmd-VII { transform: translate(290px, 0); }
-            .cmd-VIII { transform: translate(-340px, 60px) scale(0.9); }
-            .cmd-IX { transform: translate(340px, 60px) scale(0.9); }
+        /* MOBILE FIX: Pulling text way in and using a wider internal map */
+        @media (max-aspect-ratio: 1/1) {
+            .cmd-text { font-size: 15px; }
+            /* The '400' is the new center of our expanded 800-wide map */
+            .cmd-I, .cmd-II, .cmd-III, .cmd-IV, .cmd-V, .cmd-X, .core-star, .scaffolding, .main-path {
+                transform: translateX(100px); 
+            }
+            /* Compression: Bringing VI and VII way closer to the center */
+            .cmd-VI { transform: translate(60px, 20px); } 
+            .cmd-VII { transform: translate(140px, 20px); }
+            .cmd-VIII { transform: translate(60px, 50px); }
+            .cmd-IX { transform: translate(140px, 50px); }
         }
 
-        /* Mobile - Deep Compression */
-        @media (max-aspect-ratio: 1/1) {
-            .cmd-text { font-size: 16px; }
-            /* Pulling text way back from the edges */
-            .cmd-VI { transform: translate(-50px, 20px); }
-            .cmd-VII { transform: translate(50px, 20px); }
-            .cmd-VIII { transform: translate(-50px, 50px); }
-            .cmd-IX { transform: translate(50px, 50px); }
+        /* DESKTOP */
+        @media (min-aspect-ratio: 1/1) {
+            .cmd-text { font-size: 20px; }
+            .cmd-I, .cmd-II, .cmd-III, .cmd-IV, .cmd-V, .cmd-X, .core-star, .scaffolding, .main-path {
+                transform: translateX(100px); 
+            }
+            .cmd-II { transform: translate(-130px, 20px); }
+            .cmd-III { transform: translate(330px, 20px); }
+            .cmd-VI { transform: translate(-190px, 0); }
+            .cmd-VII { transform: translate(390px, 0); }
+            .cmd-VIII { transform: translate(-240px, 60px) scale(0.9); }
+            .cmd-IX { transform: translate(440px, 60px) scale(0.9); }
         }
     </style>
 </head>
 <body>
 
 <div id="canvas-wrapper">
-    <svg viewBox="0 0 600 1000" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid meet">
         <defs>
             <radialGradient id="blueGlow">
                 <stop offset="0%" stop-color="#fff" />
@@ -114,7 +122,7 @@
         </defs>
 
         <g class="main-group">
-            <path d="M300,100 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,270 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
+            <path class="main-path" d="M300,100 c-45,0 -70,35 -70,80 c0,45 25,80 70,80 s70,-35 70,-80 c0,-45 -25,-80 -70,-80 M220,270 c-90,20 -120,70 -130,160 l-50,250 c-5,35 25,50 45,40 l35,-120 l20,400 l-70,160 l110,0 l60,-280 l60,280 l110,0 l-70,-160 l20,-400 l35,120 c30,10 50,-5 45,-40 l-50,-250 c-10,-90 -40,-140 -130,-160 Z" 
                   fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" />
 
             <g class="scaffolding">
