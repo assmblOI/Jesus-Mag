@@ -3,137 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sigil of Peace - Radiant Version</title>
+    <title>Sigil of Peace - Interactive Interface</title>
     <style>
         :root {
-            --deep-indigo: #050614;
-            --royal-indigo: #161a3d;
-            --gold-glow: #fff5ca;
-            --ethereal-white: rgba(255, 255, 255, 0.4);
+            --deep-indigo: #0a0b1e;
+            --royal-indigo: #1a1c4b;
+            --sun-gold: rgba(255, 245, 200, 0.9);
+            --ray-color: rgba(255, 255, 255, 0.2);
         }
 
         body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             background-color: var(--deep-indigo);
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
         }
 
-        /* 1. BACKGROUND: Deep Space & Stars */
-        #sky {
-            position: absolute; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, var(--royal-indigo) 0%, var(--deep-indigo) 90%);
+        /* LAYER 1: The Indigo Background & Stars */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--royal-indigo) 0%, var(--deep-indigo) 80%);
             z-index: 1;
         }
 
         .star {
-            position: absolute; background: white; border-radius: 50%;
-            opacity: 0.3; animation: twinkle var(--d) infinite ease-in-out;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.3); } }
-
-        /* 2. THE SUN: Golden Starburst */
-        .sun-container {
-            position: relative; z-index: 2;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .sun-core {
             position: absolute;
-            width: 80px; height: 80px;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 0 60px 30px var(--gold-glow), 0 0 120px 60px rgba(255,200,100,0.3);
-            animation: pulse 6s infinite ease-in-out;
+            opacity: 0.5;
+            animation: twinkle var(--duration) ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* 3. THE SIGIL: Curved Geometry */
-        .sigil-svg {
-            width: 90vmin; height: 90vmin;
-            max-width: 600px;
-            overflow: visible;
+        /* LAYER 2 & 3: The Sun and Rays */
+        .sun-system {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .curved-diamond {
-            fill: none;
-            stroke: var(--ethereal-white);
-            stroke-width: 0.8;
-            /* Creates the inward-curved "star-diamond" look */
+        .central-sun {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--sun-gold);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: breathe 8s ease-in-out infinite;
         }
 
-        .vessel {
-            fill: rgba(255, 255, 255, 0.03);
-            stroke: rgba(255, 255, 255, 0.7);
-            stroke-width: 1.2;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.6; filter: blur(40px); }
+            50% { transform: scale(1.4); opacity: 1; filter: blur(60px); }
         }
 
-        .vessel-facets {
-            stroke: rgba(255, 255, 255, 0.2);
-            stroke-width: 0.5;
-            fill: none;
+        /* LAYER 4: The Vessel & Geometry */
+        .vessel-overlay {
+            position: relative;
+            z-index: 3;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .radiant-ray {
-            stroke: var(--gold-glow);
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Glassmorphism Refraction Effect */
+        .glass-vessel {
+            fill: rgba(255, 255, 255, 0.05);
+            stroke: rgba(255, 255, 255, 0.6);
             stroke-width: 1.5;
-            opacity: 0.6;
-            filter: blur(1px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .sigil-lines {
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .ray {
+            stroke: var(--ray-color);
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            animation: flow 4s linear infinite;
+        }
+
+        @keyframes flow {
+            from { stroke-dashoffset: 200; }
+            to { stroke-dashoffset: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div id="sky"></div>
+    <div id="canvas-container"></div>
 
-    <div class="sun-container">
-        <div class="sun-core"></div>
-        
-        <svg class="sigil-svg" viewBox="0 0 200 200">
-            <g class="radiant-rays">
-                <line class="radiant-ray" x1="100" y1="100" x2="100" y2="0" />
-                <line class="radiant-ray" x1="100" y1="100" x2="100" y2="200" />
-                <line class="radiant-ray" x1="100" y1="100" x2="0" y2="100" />
-                <line class="radiant-ray" x1="100" y1="100" x2="200" y2="100" />
-                <line class="radiant-ray" x1="100" y1="100" x2="180" y2="20" />
-                <line class="radiant-ray" x1="100" y1="100" x2="20" y2="180" />
-                <line class="radiant-ray" x1="100" y1="100" x2="20" y2="20" />
-                <line class="radiant-ray" x1="100" y1="100" x2="180" y2="180" />
-            </g>
+    <div class="sun-system">
+        <div class="central-sun"></div>
 
-            <circle cx="100" cy="100" r="75" class="curved-diamond" style="opacity:0.4" />
-            <circle cx="100" cy="100" r="85" class="curved-diamond" style="opacity:0.2" />
+        <svg class="vessel-overlay" viewBox="0 0 200 200">
+            <path class="sigil-lines" d="M100 10 L190 100 L100 190 L10 100 Z" />
+            <circle class="sigil-lines" cx="100" cy="100" r="85" />
             
-            <path class="curved-diamond" d="M100,5 Q130,70 195,100 Q130,130 100,195 Q70,130 5,100 Q70,70 100,5 Z" />
+            <line class="ray" x1="100" y1="100" x2="100" y2="0" />
+            <line class="ray" x1="100" y1="100" x2="100" y2="200" />
+            <line class="ray" x1="100" y1="100" x2="0" y2="100" />
+            <line class="ray" x1="100" y1="100" x2="200" y2="100" />
+            <line class="ray" x1="100" y1="100" x2="170" y2="30" />
+            <line class="ray" x1="100" y1="100" x2="30" y2="170" />
+            <line class="ray" x1="100" y1="100" x2="30" y2="30" />
+            <line class="ray" x1="100" y1="100" x2="170" y2="170" />
 
-            <g transform="translate(0, 5)">
-                <path class="vessel" d="M80,75 L120,75 L118,110 L108,135 L108,155 L120,165 L80,165 L92,155 L92,135 L82,110 Z" />
-                <path class="vessel-facets" d="M80,75 L100,90 L120,75 M100,90 L100,135 M82,110 L100,120 L118,110" />
-            </g>
+            <path class="glass-vessel" d="M75,70 L125,70 L120,110 L105,140 L105,155 L120,165 L80,165 L95,155 L95,140 L80,110 Z" />
         </svg>
     </div>
 
     <script>
-        // Populate Background Stars
-        const sky = document.getElementById('sky');
-        for (let i = 0; i < 100; i++) {
-            const s = document.createElement('div');
-            s.className = 'star';
-            const size = Math.random() * 2.5;
-            s.style.width = size + 'px';
-            s.style.height = size + 'px';
-            s.style.left = Math.random() * 100 + '%';
-            s.style.top = Math.random() * 100 + '%';
-            s.style.setProperty('--d', (3 + Math.random() * 5) + 's');
-            sky.appendChild(s);
+        // Create dynamic stars for the background
+        const container = document.getElementById('canvas-container');
+        const starCount = 80;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Random position
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // Random size
+            const size = Math.random() * 3;
+            
+            // Random animation duration
+            const duration = 2 + Math.random() * 5;
+
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.setProperty('--duration', `${duration}s`);
+
+            container.appendChild(star);
         }
     </script>
 </body>
 </html>
+
+
